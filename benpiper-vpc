@@ -1,0 +1,92 @@
+Ben Piper VPC 
+
+---
+Creating a Public VPC : 
+
+VPC -> VPC only -> vpc name -> ipv4 cidr block ( 10.1.0.0/16 ) -> no Ipv6 -> Tenancy default as dedicated option is high cost -> create 
+web vpc is created.
+
+go to Subnets -> select web-vpc above created -> give name ->  select range ( 10.1.254.0/24 ) -> click create subnet 
+web-pub subnet is created.
+
+go to Route tables -> give name -> select web-vpc -> create 
+web-pub route table is created                             // after creation, go to subnet association, associate web-pub subnet // 
+
+go to internet gate ways -> give name -> create 
+web-igw is created                             // after creation, attach it to web-vpc // 
+
+now, go to routes and editroutes -> add anywhere ip 0.0.0.0/0 as destination and web-igw as target -> add another route with ::0/0 as destination and web-igw as target // generally ::0/0 refers for ipv6 address // -> add routes 
+new routes are added 
+
+---
+Launching an instance :
+
+go to security group & launch -> give name -> select web-vpc -> add inbound rule to allow ssh from custom & http from anywhere ipv4 and ipv6 too -> for ssh, ben piper selected 24.96.0.0/16 . you didnt understand why but remember it when you ssh to the instance using this sg 
+web-pub-sg security group is created 
+
+go to network interface -> give description -> select web-pub subnet -> give custom ipv4 ( 10.1.254.10 )select web-pub-sg -> give tag ->  create 
+eni is created 
+
+go to Elastic IP -> allocate Elastic IP -> an ip is allocated -> edit name to web-pub-eip 
+
+go to eni -> select web-pub-eni -> go to actions -> allocate ip -> allocate elastic ip will be opened -> select eip -> save 
+
+go to ec2 -> launch instance -> ben is selecting special instance images for this task .. so you also select the same -> type "ecs-hvm-2021" ( we need to pay money for this, so we selected ubuntu asusual ) -> select top one -> select everything created above -> reminder to de-select network interface (dont know why, may be we explicitly created oen, i think thats why ). -> create 
+www1 instace is created 
+
+---
+
+creating a private vpc :
+
+go to vpc -> give name ( shared-vpc ) -> give cidr ( 10.2.0.0/16 ) -> create 
+shared-vpc is created 
+
+go to subnet -> give name ( database ) -> select vpc (shared) -> select AZ ( us-east-1a ) -> give cidr ( 10.2.2.0/24 ) -> create subnet
+database subnet is created
+
+route tables -> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
